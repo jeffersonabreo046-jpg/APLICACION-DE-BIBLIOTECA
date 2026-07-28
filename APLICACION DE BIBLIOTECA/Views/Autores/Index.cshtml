@@ -1,0 +1,33 @@
+﻿@model IEnumerable<APLICACION_DE_BIBLIOTECA.Models.Autor>
+
+@{
+    ViewData["Title"] = "Listado de Autores";
+}
+
+<h2 class="mb-3">Listado de Autores</h2>
+<p class="text-muted">Hay @Model.Count() autores registrados.</p>
+
+<a asp-action="Create" class="btn btn-primary mb-4">Nuevo Autor +</a>
+
+<div class="row">
+    @foreach (var autor in Model)
+    {
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-secondary border-opacity-25">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">@autor.Nombre @autor.Apellido</h5>
+                    <p class="card-text mb-1 text-secondary">@autor.Nacionalidad</p>
+                    <p class="card-text mb-2 text-secondary">
+                        <small>Fecha Nacimiento: @autor.Fecha_De_Nacimiento.ToString("dd/MM/yyyy")</small>
+                    </p>
+                    <p class="card-text mb-3">
+                        <span class="badge @(autor.Activo ? "bg-success" : "bg-danger")">
+                            @(autor.Activo ? "Activo" : "No activo")
+                        </span>
+                    </p>
+                    <a asp-action="Details" asp-route-id="@autor.ID" class="text-decoration-underline">Ver</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

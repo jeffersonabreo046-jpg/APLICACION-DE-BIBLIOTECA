@@ -1,0 +1,48 @@
+﻿@model APLICACION_DE_BIBLIOTECA.Models.Autor
+
+@{
+    ViewData["Title"] = "Crear Autor";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Nombre"></label>
+    <input asp-for="Nombre" class ="form-control" />
+    <span asp-validation-for="Nombre"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Apellido"></label>
+        <input asp-for="Apellido" class="form-control" />
+        <span asp-validation-for="Apellido"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Nacionalidad"></label>
+        <input asp-for="Nacionalidad" class="form-control" />
+        <span asp-validation-for="Nacionalidad"></span>
+    </div>
+
+
+            <div class="mb-3">
+              <label asp-for="Fecha_De_Nacimiento"></label>
+                <input asp-for="Fecha_De_Nacimiento" type="date" class="form-control" />
+                <span asp-validation-for="Fecha_De_Nacimiento"></span>
+            </div>
+    <div class="mb-3 form-check">
+        <input asp-for="Activo" class="form-check-input" type="checkbox" />
+        <label asp-for="Activo" class="form-check-label">Autor Activo</label>
+    </div>
+
+
+   
+
+    <button type="submit" class ="btn btn-success">Crear</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+
+
+</form>
+
+ 

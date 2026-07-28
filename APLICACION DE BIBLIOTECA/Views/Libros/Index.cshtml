@@ -1,0 +1,39 @@
+﻿@model List<APLICACION_DE_BIBLIOTECA.Models.Libro>
+<h2>Catalogo de Libro</h2>
+
+<table class="table  table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titulo</th>
+            <th>Autor</th>
+            <th>Categorias</th>
+            <th>Precio</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Libro in Model)
+        {
+            <tr>
+                <td>@Libro.ID</td>
+                <td>@Libro.Titulo</td>
+                <td>@Libro.Autor</td>
+                <td>@Libro.Categoria</td>
+                <td>$@Libro.Precio</td>
+                <td>
+                    @if (Libro.Disponible)
+                    {
+                        <spam class=" badge bg-success">Disponible</spam>
+                    }
+                    else
+                    {
+                        <spam class=" badge bg-danger">Prestado</spam>
+                    }
+                </td>
+
+            </tr>
+
+        }
+    </tbody>
+</table>

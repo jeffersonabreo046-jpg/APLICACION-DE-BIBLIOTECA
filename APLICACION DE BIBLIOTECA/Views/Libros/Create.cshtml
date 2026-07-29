@@ -1,0 +1,46 @@
+﻿@model APLICACION_DE_BIBLIOTECA.Models.Libro
+
+@{
+    ViewData["Title"] = "Nuevo Libro";
+}
+
+<h2 class="mb-4">Agregar Nuevo Libro</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label asp-for="Titulo" class="form-label">Título</label>
+                <input asp-for="Titulo" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Autor" class="form-label">Autor</label>
+                <input asp-for="Autor" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Categoria" class="form-label">Categoría</label>
+                <input asp-for="Categoria" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Precio" class="form-label">Precio</label>
+                <input asp-for="Precio" type="number" step="0.01" class="form-control" required />
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="Disponible" class="form-check-input" type="checkbox" />
+                <label asp-for="Disponible" class="form-check-label">Disponible para préstamo</label>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Imagen de Portada</label>
+                <input type="file" name="imagenFile" class="form-control" accept="image/*" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar Libro</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+        </form>
+    </div>
+</div>

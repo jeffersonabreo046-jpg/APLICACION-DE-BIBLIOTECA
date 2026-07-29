@@ -103,7 +103,7 @@ namespace APLICACION_DE_BIBLIOTECA.Controllers
         }
 
         [HttpGet]
-        public IActionResult Editar(int id)
+        public IActionResult Edit(int id)
         {
 
             var autor = _autores.FirstOrDefault(x => x.ID == id);
@@ -114,8 +114,8 @@ namespace APLICACION_DE_BIBLIOTECA.Controllers
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public IActionResult Editar(Autor autor)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Autor autor)
         {
             if (!ModelState.IsValid) return View(autor);
 

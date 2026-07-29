@@ -25,7 +25,11 @@
                             @(autor.Activo ? "Activo" : "No activo")
                         </span>
                     </p>
-                    <a asp-action="Details" asp-route-id="@autor.ID" class="text-decoration-underline">Ver</a>
+                    <div class="d-flex gap-2">
+                        <a asp-action="Details" asp-route-id="@autor.ID" class="btn btn-sm btn-info text-white">Ver</a>
+                        <a asp-action="Edit" asp-route-id="@autor.ID" class="btn btn-sm btn-warning">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@autor.ID" class="btn btn-sm btn-danger">Eliminar</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,31 @@
+﻿@model APLICACION_DE_BIBLIOTECA.Models.Libro
+
+@{
+    ViewData["Title"] = "Detalle del Libro";
+}
+
+<h2 class="mb-4">Detalle del Libro</h2>
+
+<div class="card shadow-sm" style="max-width: 600px;">
+    <div class="row g-0">
+        <div class="col-md-5">
+            <img src="@(string.IsNullOrEmpty(Model.ImagenUrl) ? "https://via.placeholder.com/300x400?text=Sin+Portada" : Model.ImagenUrl)"
+                 class="img-fluid rounded-start h-100" style="object-fit: cover;" alt="@Model.Titulo">
+        </div>
+        <div class="col-md-7">
+            <div class="card-body">
+                <h4 class="card-title fw-bold">@Model.Titulo</h4>
+                <p class="card-text mb-1"><strong>Autor:</strong> @Model.Autor</p>
+                <p class="card-text mb-1"><strong>Categoría:</strong> @Model.Categoria</p>
+                <p class="card-text mb-2"><strong>Precio:</strong> $@Model.Precio</p>
+                <p class="card-text mb-4">
+                    <span class="badge @(Model.Disponible ? "bg-success" : "bg-danger")">
+                        @(Model.Disponible ? "Disponible" : "No disponible")
+                    </span>
+                </p>
+                <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning btn-sm">Editar</a>
+                <a asp-action="Index" class="btn btn-secondary btn-sm">Volver al listado</a>
+            </div>
+        </div>
+    </div>
+</div>

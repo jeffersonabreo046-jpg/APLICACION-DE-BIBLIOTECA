@@ -29,3 +29,74 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/*==================================================
+    VARIABLES
+ ====================================================*/
+
+:root {
+    --color-principal: #33a69a; 
+    --color-secundario: #b6ff00;
+    --color-texto: #2d3748; 
+    --color-blanco: white;
+}
+
+.about-header {
+    background: var(--color-principal);
+    color: var(--color-blanco);
+    text-align: center;
+    padding: 40px;
+}
+
+.about-container {
+    display: flex;
+    gap: 25px;
+    padding: 40px;
+}
+
+.about-content {
+    flex: 3;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0,0,0,.1);
+    transition: 0.3s; /* Corregido: punto en lugar de coma para que funcione la animación */
+}
+
+    .about-content:hover {
+        transform: translateY(-5px);
+    }
+
+.about-info {
+    flex: 1;
+    background: #e9f2f9; 
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.team-section {
+    padding: 20px 40px;
+}
+
+    .team-section img {
+        width: 50%;
+        height: 320px; 
+        object-fit: cover; 
+        object-position: center; 
+        border-radius: 10px;
+        display: block;
+        margin: 0 auto; 
+    }
+
+    .team-section figcaption {
+        text-align: center;
+        margin-top: 10px;
+        color: gray;
+        font-style: italic;
+    }
+
+@media(max-width: 768px) {
+    .about-container {
+        flex-direction: column;
+    }
+}

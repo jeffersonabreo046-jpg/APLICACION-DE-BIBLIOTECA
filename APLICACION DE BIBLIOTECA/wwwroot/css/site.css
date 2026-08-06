@@ -35,9 +35,9 @@ body {
  ====================================================*/
 
 :root {
-    --color-principal: #33a69a; 
+    --color-principal: #33a69a;
     --color-secundario: #b6ff00;
-    --color-texto: #2d3748; 
+    --color-texto: #2d3748;
     --color-blanco: white;
 }
 
@@ -60,7 +60,7 @@ body {
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0px 2px 10px rgba(0,0,0,.1);
-    transition: 0.3s; /* Corregido: punto en lugar de coma para que funcione la animación */
+    transition: 0.3s;
 }
 
     .about-content:hover {
@@ -69,7 +69,7 @@ body {
 
 .about-info {
     flex: 1;
-    background: #e9f2f9; 
+    background: #e9f2f9;
     padding: 20px;
     border-radius: 10px;
 }
@@ -80,12 +80,12 @@ body {
 
     .team-section img {
         width: 50%;
-        height: 320px; 
-        object-fit: cover; 
-        object-position: center; 
+        height: 320px;
+        object-fit: cover;
+        object-position: center;
         border-radius: 10px;
         display: block;
-        margin: 0 auto; 
+        margin: 0 auto;
     }
 
     .team-section figcaption {
@@ -95,8 +95,15 @@ body {
         font-style: italic;
     }
 
-@media(max-width: 768px) {
+
+@media (max-width: 768px) {
     .about-container {
         flex-direction: column;
+        padding: 20px; 
+    }
+
+    .team-section img {
+        width: 100%; 
+        height: auto;
     }
 }

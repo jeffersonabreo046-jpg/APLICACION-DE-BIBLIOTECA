@@ -1,8 +1,123 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<div class="container mt-5">
+    <!-- Corregido: align-items-center (tenía una 'g' extra) -->
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1 class="display-4">
+                Biblioteca de Hardware
+            </h1>
+            <p class="lead">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since 1966,
+            </p>
+            <a asp-controller="Home" asp-action="About" class="btn btn-primary">Conocer mas</a>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="https://picsum.photos/500/350" class="img-fluid rounded shadow" alt="Biblioteca" />
+        </div>
+    </div>
+</div>
 
-<div class="text-center">
-    <h1>Biblioteca De Hardware</h1>
-    <p>Bienvenidos a la biblioteca Con Asp.Net.Core usando MVC</p>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Servicio de biblioteca</h2>
+    <div class="row">
+        <!-- Servicio 1 (Corregido: col-md-4 sin espacio extra) -->
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <img src="https://picsum.photos/400/200?random=1" class="card-img-top" alt="Imagen">
+                <div class="card-body">
+                    <h5 class="card-title">Consulta de Libros</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                    <a asp-controller="Libros" asp-action="Index" class="btn btn-primary">Ver Libros</a>
+                </div>
+            </div>
+        </div>
+        <!-- Servicio 2 (Corregido: col-md-4) -->
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <img src="https://picsum.photos/400/200?random=2" class="card-img-top" alt="Imagen">
+                <div class="card-body">
+                    <h5 class="card-title">Gestión de Préstamos</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                    <a asp-controller="Prestamos" asp-action="Index" class="btn btn-primary">Ver Préstamos</a>
+                </div>
+            </div>
+        </div>
+        <!-- Servicio 3 (Corregido: col-md-4) -->
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <img src="https://picsum.photos/400/200?random=3" class="card-img-top" alt="Imagen">
+                <div class="card-body">
+                    <h5 class="card-title">Autores y Categorías</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                    <a asp-controller="Categorias" asp-action="Index" class="btn btn-primary">Ver Categorías</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row text-center">
+        <!-- Columna 1: Libros -->
+        <div class="col-md-4">
+            <h2 class="text-primary">500+</h2>
+            <p>Libros disponibles</p>
+        </div>
+
+        <!-- Columna 2: Autores -->
+        <div class="col-md-4">
+            <h2 class="text-primary">120+</h2>
+            <p>Autores Registrados</p>
+        </div>
+
+        <!-- Columna 3: Categorías -->
+        <div class="col-md-4">
+            <h2 class="text-primary">25+</h2>
+            <p>Categorías Literarias</p>
+        </div>
+    </div>
+</div>
+
+<!-- COMPONENTE ADICIONAL (Actividad 5 - Reto: Accordion) -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Preguntas Frecuentes</h2>
+    <div class="accordion" id="accordionBiblioteca">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                    ¿Cómo puedo solicitar un libro en préstamo?
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionBiblioteca">
+                <div class="accordion-body">
+                    Puedes explorar nuestro catálogo en la sección de Libros y realizar tu solicitud directamente en el módulo de Préstamos.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                    ¿Cuál es el tiempo máximo de préstamo?
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionBiblioteca">
+                <div class="accordion-body">
+                    El tiempo estándar de préstamo para libros físicos es de 7 días renovables desde tu panel de usuario.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="bg-primary text-white rounded p-5 text-center">
+        <!-- Corregido typo: Explrora -> Explora -->
+        <h2>Explora nuestra Biblioteca Virtual</h2>
+        <p>
+            Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+            Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 150
+        </p>
+
+        <a asp-controller="Home" asp-action="About" class="btn btn-outline-light">Acerca de la Biblioteca</a>
+    </div>
 </div>

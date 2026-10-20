@@ -31,36 +31,41 @@ body {
 }
 
 /*==================================================
-    VARIABLES
+    VARIABLES GLOBALES
  ====================================================*/
-
 :root {
     --color-principal: #33a69a;
     --color-secundario: #b6ff00;
     --color-texto: #2d3748;
-    --color-blanco: white;
+    --color-blanco: #ffffff;
 }
 
+/*==================================================
+    ESTILOS GENERALES Y LAYOUT BASE
+ ====================================================*/
 .about-header {
-    background: var(--color-principal);
+    background-color: var(--color-principal);
     color: var(--color-blanco);
     text-align: center;
     padding: 40px;
+    border-radius: 10px;
 }
 
 .about-container {
     display: flex;
+    flex-direction: row;
+    align-items: flex-start;
     gap: 25px;
-    padding: 40px;
+    padding: 20px 0;
 }
 
 .about-content {
-    flex: 3;
-    background: white;
+    flex: 2;
+    background: var(--color-blanco);
     padding: 25px;
     border-radius: 10px;
-    box-shadow: 0px 2px 10px rgba(0,0,0,.1);
-    transition: 0.3s;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
 }
 
     .about-content:hover {
@@ -69,17 +74,17 @@ body {
 
 .about-info {
     flex: 1;
-    background: #e9f2f9;
-    padding: 20px;
-    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .team-section {
-    padding: 20px 40px;
+    padding: 20px 0;
 }
 
     .team-section img {
-        width: 50%;
+        width: 60%;
         height: 320px;
         object-fit: cover;
         object-position: center;
@@ -95,15 +100,187 @@ body {
         font-style: italic;
     }
 
+/*==================================================
+    ACTIVIDAD 1 Y 2: ESTILOS PARA HOME (Flexbox y Grid)
+ ====================================================*/
 
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.hero-content, .hero-image {
+    flex: 1;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-principal);
+}
+
+.stat-label {
+    color: var(--color-texto);
+    font-size: 1rem;
+}
+
+.banner-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+    border-radius: 12px;
+    text-align: center;
+    gap: 1rem;
+}
+
+    .banner-cta .btn {
+        border: 2px solid var(--color-blanco) !important;
+        color: var(--color-blanco) !important;
+        background-color: transparent;
+        padding: 8px 20px;
+        font-weight: 600;
+    }
+
+        .banner-cta .btn:hover {
+            background-color: var(--color-blanco) !important;
+            color: var(--color-principal) !important;
+        }
+
+
+.grid-servicios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card-biblioteca {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-blanco);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card-biblioteca:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+.card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body-custom {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1.5rem;
+}
+
+    .card-body-custom p {
+        color: var(--color-texto);
+        flex-grow: 1;
+    }
+
+.btn-card {
+    align-self: flex-start;
+    margin-top: 1rem;
+    background-color: var(--color-principal);
+    border-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+    .btn-card:hover {
+        background-color: #27857b;
+    }
+
+/*==================================================
+ COMPONENTES REUTILIZABLES DEL ABOUT
+ ====================================================*/
+
+.info-card {
+    background-color: #f1f8f7;
+    border-radius: 8px;
+    padding: 1.25rem;
+    border-left: 4px solid var(--color-principal);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+    .info-card h3 {
+        color: var(--color-principal);
+        margin-bottom: 0.5rem;
+    }
+
+.grid-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+}
+
+.feature-card {
+    background-color: var(--color-blanco);
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+.feature-icon {
+    font-size: 2rem;
+}
+
+/*==================================================
+     AJUSTES RESPONSIVOS (Media Queries)
+ ====================================================*/
 @media (max-width: 768px) {
     .about-container {
         flex-direction: column;
-        padding: 20px; 
+    }
+
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .stats-container {
+        flex-direction: column;
+        gap: 1rem;
     }
 
     .team-section img {
-        width: 100%; 
+        width: 100%;
         height: auto;
     }
 }

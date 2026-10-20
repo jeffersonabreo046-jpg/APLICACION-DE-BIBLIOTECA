@@ -1,36 +1,75 @@
-﻿<nav class="navbar  navbar-expand-lg bg-dark" data-bs-theme="dark">
+﻿<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Biblioteca Api</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <ul class="navbar-nav flex-grow-1">
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                 </li>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    @* consulta general visibles para Administrador, Bibliotecario y Usuario *@
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Libros" asp-action="Index">Libros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Categorias" asp-action="Index">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Autores" asp-action="Index">Autores</a>
+                    </li>
+
+                    @* Modulos de gestion operativa *@
+                    @if (User.IsInRole("Administrador") || User.IsInRole("Bibliotecario"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Prestamos">Préstamos</a>
+                        </li>
+                    }
+
+                    @*Modulos de gestion del sistema *@
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Usuarios">Usuarios</a>
+                        </li>
+                    }
+                }
+
                 <li class="nav-item">
-                    <a class="nav-link " asp-controller="Libros" asp-action="Index">Libros</a>
+                    <a class="nav-link" asp-controller="Home" asp-action="About">Acerca de</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link " asp-controller="Home" asp-action="Categorias">Categorías</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " asp-controller="Autores" asp-action="Index">Autores</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " asp-controller="Home" asp-action="Usuarios">Usuarios</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " asp-controller="Home" asp-action="Prestamos">Prestamos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " asp-controller="Home" asp-action="About">Acerca de</a>
-                </li>
-               
+            </ul>
+            <ul class="navbar-nav">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <li class="nav-item">
+                        <span class="nav-link text-light fw-bold">@User.Identity.Name</span>
+                    </li>
+                    <li class="nav-item">
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                            <button type="submit" class="nav-link btn btn-link text-decoration-none">Cerrar Sesión</button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Register">Registrarse</a>
+                    </li>
+                }
             </ul>
         </div>
     </div>
 </nav>
-

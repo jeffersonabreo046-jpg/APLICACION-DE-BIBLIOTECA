@@ -1,19 +1,37 @@
 ﻿@model APLICACION_DE_BIBLIOTECA.Models.Autor
+
 @{
     ViewData["Title"] = "Detalles acerca del autor";
 }
-<h1>@Model.Nombre</h1>
 
-<dl class = "row">
-    <dt>Nacionalidad</dt>
-    <dd>@Model.Nacionalidad</dd>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="card-title">@Model.Nombre</h2>
+        <h6 class="card-subtitle mb-3 text-muted">@Model.Nacionalidad</h6>
 
-    <dt>Fecha_De_Nacimiento</dt>
-    <dd>@Model.Fecha_De_Nacimiento.ToString("dd/MM/yyyy")</dd>
+        <dl class="row">
+            <dt class="col-sm-4">Fecha de Nacimiento</dt>
+            <dd class="col-sm-8">@Model.Fecha_De_Nacimiento.ToString("yyyy-MM-dd")</dd>
 
-    <dt>Edad</dt>
-    <dd>@(DateTime.Now.Year -Model.Fecha_De_Nacimiento.Year)</dd>
+            <dt class="col-sm-4">Edad</dt>
+            <dd class="col-sm-8">@(DateTime.Now.Year - Model.Fecha_De_Nacimiento.Year)</dd>
+        </dl>
 
+        <div class="d-flex gap-2">
+            @if (User.IsInRole("Administrador") || User.IsInRole("Bibliotecario"))
+            {
+                <a class="btn btn-outline-secondary swal-edit-link" asp-action="Edit" asp-route-id="@Model.ID">Editar</a>
+            }
 
-</dl>
-<a asp-action="Index" class="btn btn-primary">Volver al listado</a>
+            @if (User.IsInRole("Administrador"))
+            {
+                <form asp-action="Delete" asp-route-id="@Model.ID" method="post" class="swal-delete-form d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            }
+
+            <a asp-action="Index" class="btn btn-primary ms-auto">Volver al listado</a>
+        </div>
+    </div>
+</div>

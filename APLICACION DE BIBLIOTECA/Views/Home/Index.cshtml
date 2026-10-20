@@ -1,87 +1,78 @@
-﻿<div class="container mt-5">
-    <!-- Corregido: align-items-center (tenía una 'g' extra) -->
-    <div class="row align-items-center">
-        <div class="col-md-6">
-            <h1 class="display-4">
-                Biblioteca de Hardware
-            </h1>
-            <p class="lead">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since 1966,
-            </p>
-            <a asp-controller="Home" asp-action="About" class="btn btn-primary">Conocer mas</a>
+﻿<section class="hero-section container my-5">
+    <div class="hero-content">
+        <h1 class="display-4 fw-bold">Biblioteca de Hardware</h1>
+        <p class="lead">
+            Plataforma académica diseñada para facilitar el acceso a manuales, recursos técnicos y bibliografía especializada, impulsando la práctica y el aprendizaje de los estudiantes.
+        </p>
+        <a asp-controller="Home" asp-action="About" class="btn btn-primary btn-lg custom-btn">Conocer más</a>
+    </div>
+    <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+             class="img-fluid rounded shadow-lg"
+             alt="Biblioteca de Hardware" />
+    </div>
+</section>
+
+
+<section class="container my-5">
+    <h2 class="text-center mb-4 section-title">Servicios de la Biblioteca</h2>
+    <div class="grid-servicios">
+
+        <article class="card-biblioteca">
+            <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=600&q=80"
+                 alt="Consulta de Libros" class="card-img">
+            <div class="card-body-custom">
+                <h3>Consulta de Libros</h3>
+                <p>Explora el catálogo completo de manuales, guías técnicas y bibliografía especializada en hardware y arquitectura de sistemas.</p>
+                <a asp-controller="Libros" asp-action="Index" class="btn btn-primary btn-card">Ver Libros</a>
+            </div>
+        </article>
+
+        <article class="card-biblioteca">
+            <img src="https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=600&q=80"
+                 alt="Gestión de Préstamos" class="card-img">
+            <div class="card-body-custom">
+                <h3>Gestión de Préstamos</h3>
+                <p>Controla de forma rápida y centralizada el estado de las solicitudes, entregas y fechas de devolución de los ejemplares.</p>
+                <a asp-controller="Prestamos" asp-action="Index" class="btn btn-primary btn-card">Ver Préstamos</a>
+            </div>
+        </article>
+
+        <article class="card-biblioteca">
+            <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=600&q=80"
+                 alt="Autores y Categorías" class="card-img">
+            <div class="card-body-custom">
+                <h3>Autores y Categorías</h3>
+                <p>Filtra y organiza los recursos bibliográficos según sus áreas temáticas, especialidades técnicas o fabricantes de origen.</p>
+                <a asp-controller="Categorias" asp-action="Index" class="btn btn-primary btn-card">Ver Categorías</a>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+
+<section class="container my-5">
+    <div class="stats-container">
+        <div class="stat-item">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Libros disponibles</span>
         </div>
-        <div class="col-md-6 text-center">
-            <img src="https://picsum.photos/500/350" class="img-fluid rounded shadow" alt="Biblioteca" />
+        <div class="stat-item">
+            <span class="stat-number">120+</span>
+            <span class="stat-label">Autores Registrados</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">25+</span>
+            <span class="stat-label">Categorías Literarias</span>
         </div>
     </div>
-</div>
+</section>
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Servicio de biblioteca</h2>
-    <div class="row">
-        <!-- Servicio 1 (Corregido: col-md-4 sin espacio extra) -->
-        <div class="col-md-4 mb-3">
-            <div class="card h-100 shadow-sm">
-                <img src="https://picsum.photos/400/200?random=1" class="card-img-top" alt="Imagen">
-                <div class="card-body">
-                    <h5 class="card-title">Consulta de Libros</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    <a asp-controller="Libros" asp-action="Index" class="btn btn-primary">Ver Libros</a>
-                </div>
-            </div>
-        </div>
-        <!-- Servicio 2 (Corregido: col-md-4) -->
-        <div class="col-md-4 mb-3">
-            <div class="card h-100 shadow-sm">
-                <img src="https://picsum.photos/400/200?random=2" class="card-img-top" alt="Imagen">
-                <div class="card-body">
-                    <h5 class="card-title">Gestión de Préstamos</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    <a asp-controller="Prestamos" asp-action="Index" class="btn btn-primary">Ver Préstamos</a>
-                </div>
-            </div>
-        </div>
-        <!-- Servicio 3 (Corregido: col-md-4) -->
-        <div class="col-md-4 mb-3">
-            <div class="card h-100 shadow-sm">
-                <img src="https://picsum.photos/400/200?random=3" class="card-img-top" alt="Imagen">
-                <div class="card-body">
-                    <h5 class="card-title">Autores y Categorías</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    <a asp-controller="Categorias" asp-action="Index" class="btn btn-primary">Ver Categorías</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="container mt-5">
-    <div class="row text-center">
-        <!-- Columna 1: Libros -->
-        <div class="col-md-4">
-            <h2 class="text-primary">500+</h2>
-            <p>Libros disponibles</p>
-        </div>
-
-        <!-- Columna 2: Autores -->
-        <div class="col-md-4">
-            <h2 class="text-primary">120+</h2>
-            <p>Autores Registrados</p>
-        </div>
-
-        <!-- Columna 3: Categorías -->
-        <div class="col-md-4">
-            <h2 class="text-primary">25+</h2>
-            <p>Categorías Literarias</p>
-        </div>
-    </div>
-</div>
-
-<!-- COMPONENTE ADICIONAL (Actividad 5 - Reto: Accordion) -->
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Preguntas Frecuentes</h2>
-    <div class="accordion" id="accordionBiblioteca">
+<section class="container my-5">
+    <h2 class="text-center mb-4 section-title">Preguntas Frecuentes</h2>
+    <div class="accordion shadow-sm" id="accordionBiblioteca">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
@@ -107,17 +98,13 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="container mt-5 mb-5">
-    <div class="bg-primary text-white rounded p-5 text-center">
-        <!-- Corregido typo: Explrora -> Explora -->
+<!-- BANNER CTA (Flexbox) -->
+<section class="container my-5">
+    <div class="banner-cta">
         <h2>Explora nuestra Biblioteca Virtual</h2>
-        <p>
-            Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
-            Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 150
-        </p>
-
+        <p>¡En nuestra Biblioteca encontrarás todo lo que necesitas en Hardware!</p>
         <a asp-controller="Home" asp-action="About" class="btn btn-outline-light">Acerca de la Biblioteca</a>
     </div>
-</div>
+</section>

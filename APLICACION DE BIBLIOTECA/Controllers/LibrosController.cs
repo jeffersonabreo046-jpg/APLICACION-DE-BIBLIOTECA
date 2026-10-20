@@ -1,72 +1,53 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using APLICACION_DE_BIBLIOTECA.Models;
+using APLICACION_DE_BIBLIOTECA.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APLICACION_DE_BIBLIOTECA.Controllers
 {
+    [Authorize] //Protegers todo el controlador 
     public class LibrosController : Controller
     {
-        private readonly IWebHostEnvironment _env;
+        private readonly BibliotecaContext _context;
 
-        public LibrosController(IWebHostEnvironment env)
+        public LibrosController(BibliotecaContext context)
         {
-            _env = env;
+            _context = context;
         }
 
-
-        private static List<Libro> _libros = new List<Libro>()
-{
-    new Libro
-    {
-        ID = 1,
-        Titulo = "Clean Code",
-        Autor = "Kvicha Lars",
-        Categoria = "Programacion",
-        Precio = 32.5M,
-        Disponible = true,
-        ImagenUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgic6vSj28uG1ptqwnFuUwFPVKH3bnovlHJrh-C5fmtw&s=10"
-    },
-    new Libro
-    {
-        ID = 2,
-        Titulo = "Open Source",
-        Autor = "Conor Phillip",
-        Categoria = "Programacion Web 1",
-        Precio = 37.90M,
-        Disponible = false,
-        ImagenUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJECMHNxKL1x8PtY6Ex12E8ZXqEqTRLm0gKgGaTs-6ZA&s=10"
-    }
-};
-
-
-        public IActionResult Index()
+        //Permitido para todos los roles autenticados Usuario, Bibliotecario, Administrador
+        public async Task<IActionResult> Index()
         {
-            return View(_libros);
+            return View(await _context.Libros.ToListAsync());
         }
 
-      
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var libro = _libros.FirstOrDefault(x => x.ID == id);
+            var libro = await _context.Libros.FindAsync(id);
             if (libro == null) return NotFound();
             return View(libro);
         }
 
-     
+        //Restringido a Administrador y Bibliotecario
+        [Authorize(Roles = "Administrador,Bibliotecario")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrador,Bibliotecario")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Libro libro, IFormFile? imagenFile)
+        public async Task<IActionResult> Create(Libro libro, IFormFile? imagenFile, [FromServices] IWebHostEnvironment env)
         {
             if (ModelState.IsValid)
             {
                 if (imagenFile != null && imagenFile.Length > 0)
                 {
-                    string folder = Path.Combine(_env.WebRootPath, "images");
+                    string folder = Path.Combine(env.WebRootPath, "images");
                     Directory.CreateDirectory(folder);
 
                     string fileName = Guid.NewGuid().ToString() + "_" + imagenFile.FileName;
@@ -80,79 +61,92 @@ namespace APLICACION_DE_BIBLIOTECA.Controllers
                     libro.ImagenUrl = "/images/" + fileName;
                 }
 
-                libro.ID = _libros.Any() ? _libros.Max(x => x.ID) + 1 : 1;
-                _libros.Add(libro);
+                _context.Libros.Add(libro);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
             return View(libro);
         }
 
-      
+        //Restringido a Administrador y Bibliotecario
+        [Authorize(Roles = "Administrador,Bibliotecario")]
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var libro = _libros.FirstOrDefault(x => x.ID == id);
+            var libro = await _context.Libros.FindAsync(id);
             if (libro == null) return NotFound();
             return View(libro);
         }
 
-        
+        [Authorize(Roles = "Administrador,Bibliotecario")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Libro libro, IFormFile? imagenFile)
+        public async Task<IActionResult> Edit(int id, Libro libro, IFormFile? imagenFile, [FromServices] IWebHostEnvironment env)
         {
+            if (id != libro.ID) return BadRequest();
+
             if (ModelState.IsValid)
             {
-                var libroExistente = _libros.FirstOrDefault(x => x.ID == libro.ID);
-                if (libroExistente != null)
+                var libroExistente = await _context.Libros.FindAsync(id);
+                if (libroExistente == null) return NotFound();
+
+                //Actualizar propiedades
+                libroExistente.Titulo = libro.Titulo;
+                libroExistente.Autor = libro.Autor;
+                libroExistente.Categoria = libro.Categoria;
+                libroExistente.Precio = libro.Precio;
+                libroExistente.Disponible = libro.Disponible;
+
+                //imagen
+                if (imagenFile != null && imagenFile.Length > 0)
                 {
-                    libroExistente.Titulo = libro.Titulo;
-                    libroExistente.Autor = libro.Autor;
-                    libroExistente.Categoria = libro.Categoria;
-                    libroExistente.Precio = libro.Precio;
-                    libroExistente.Disponible = libro.Disponible;
+                    string folder = Path.Combine(env.WebRootPath, "images");
+                    Directory.CreateDirectory(folder);
 
-                    if (imagenFile != null && imagenFile.Length > 0)
+                    string fileName = Guid.NewGuid().ToString() + "_" + imagenFile.FileName;
+                    string filePath = Path.Combine(folder, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        string folder = Path.Combine(_env.WebRootPath, "images");
-                        Directory.CreateDirectory(folder);
-
-                        string fileName = Guid.NewGuid().ToString() + "_" + imagenFile.FileName;
-                        string filePath = Path.Combine(folder, fileName);
-
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await imagenFile.CopyToAsync(stream);
-                        }
-
-                        libroExistente.ImagenUrl = "/images/" + fileName;
+                        await imagenFile.CopyToAsync(stream);
                     }
+
+                    libroExistente.ImagenUrl = "/images/" + fileName;
                 }
+
+                _context.Libros.Update(libroExistente);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
             return View(libro);
         }
 
+        //Restringido a Administrador y Bibliotecario
+        [Authorize(Roles = "Administrador,Bibliotecario")]
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var libro = _libros.FirstOrDefault(x => x.ID == id);
+            var libro = await _context.Libros.FindAsync(id);
             if (libro == null) return NotFound();
             return View(libro);
         }
 
-        
+        [Authorize(Roles = "Administrador,Bibliotecario")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var libro = _libros.FirstOrDefault(x => x.ID == id);
+            var libro = await _context.Libros.FindAsync(id);
             if (libro != null)
             {
-                _libros.Remove(libro);
+                _context.Libros.Remove(libro);
+                await _context.SaveChangesAsync();
             }
+
             return RedirectToAction(nameof(Index));
         }
     }

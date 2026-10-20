@@ -23,7 +23,13 @@
                         @(Model.Disponible ? "Disponible" : "No disponible")
                     </span>
                 </p>
-                <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning btn-sm">Editar</a>
+
+                @* boton de editar a Administrador y Bibliotecario *@
+                @if (User.IsInRole("Administrador") || User.IsInRole("Bibliotecario"))
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning btn-sm">Editar</a>
+                }
+
                 <a asp-action="Index" class="btn btn-secondary btn-sm">Volver al listado</a>
             </div>
         </div>

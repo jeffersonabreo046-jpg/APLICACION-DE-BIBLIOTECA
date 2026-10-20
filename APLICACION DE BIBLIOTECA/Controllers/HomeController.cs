@@ -1,9 +1,11 @@
 using APLICACION_DE_BIBLIOTECA.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APLICACION_DE_BIBLIOTECA.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -11,11 +13,6 @@ namespace APLICACION_DE_BIBLIOTECA.Controllers
             return View();
         }
    
-      
-        public IActionResult Categorias()
-        {
-            return View();
-        }
 
         public IActionResult About()
         {
@@ -35,7 +32,7 @@ namespace APLICACION_DE_BIBLIOTECA.Controllers
             return View();
         }
 
-
+        [AllowAnonymous]
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

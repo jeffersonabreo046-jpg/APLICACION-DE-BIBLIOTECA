@@ -1,50 +1,75 @@
-﻿@model List<APLICACION_DE_BIBLIOTECA.Models.Libro>
+﻿@model IEnumerable<APLICACION_DE_BIBLIOTECA.Models.Libro>
 @{
     ViewData["Title"] = "Listado de Libros";
 }
 
-<h2 class="mb-3">Listado de Libros</h2>
-<p class="text-muted">Hay @Model.Count() libros registrados.</p>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">Listado de Libros</h2>
+            <p class="text-muted mb-0 small">Hay @Model.Count() libros registrados en el catalogo</p>
+        </div>
 
-<a asp-action="Create" class="btn btn-primary mb-4">Nuevo Libro +</a>
+        @*botpn de agregar a Administrador y Bibliotecario *@
+        @if (User.IsInRole("Administrador") || User.IsInRole("Bibliotecario"))
+        {
+            <a class="btn btn-primary shadow-sm px-3" asp-action="Create">Nuevo Libro +</a>
+        }
+    </div>
 
-<div class="row">
-    @foreach (var libro in Model)
-    {
-        <div class="col-md-6 mb-4">
-            <div class="card h-100 shadow-sm border-secondary border-opacity-25">
-                <div class="card-body">
-                    <div class="d-flex gap-3 align-items-start">
-                        @if (!string.IsNullOrEmpty(libro.ImagenUrl))
-                        {
-                            <img src="@libro.ImagenUrl" alt="@libro.Titulo" style="width: 70px; height: 95px; object-fit: cover;" class="rounded border shadow-sm" />
-                        }
-                        else
-                        {
-                            <div class="bg-light text-secondary d-flex align-items-center justify-content-center rounded border shadow-sm fw-bold" style="width: 70px; height: 95px; font-size: 10px; text-align: center;">
-                                Sin Foto
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var libro in Model)
+        {
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm rounded-3">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex gap-3 mb-3">
+                            <img src="@(string.IsNullOrEmpty(libro.ImagenUrl) ? "/images/no-cover.png" : libro.ImagenUrl)"
+                                 alt="@libro.Titulo"
+                                 class="rounded border object-fit-cover"
+                                 style="width: 80px; height: 110px;" />
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">@libro.Titulo</h5>
+                                <p class="text-muted small mb-1"><strong>Autor:</strong> @libro.Autor</p>
+                                <p class="text-muted small mb-1"><strong>Categoría:</strong> @libro.Categoria</p>
+                                <p class="fw-bold text-success mb-0">$@libro.Precio.ToString("0.00")</p>
                             </div>
-                        }
-                        <div class="flex-grow-1">
-                            <h5 class="card-title fw-bold mb-1">@libro.Titulo</h5>
-                            <p class="card-text mb-1 text-secondary"><strong>Autor:</strong> @libro.Autor</p>
-                            <p class="card-text mb-1 text-secondary"><strong>Categoría:</strong> @libro.Categoria</p>
-                            <p class="card-text mb-2 text-secondary">
-                                <small><strong>Precio:</strong> $@libro.Precio.ToString("0.00")</small>
-                            </p>
-                            <p class="card-text mb-3">
-                                <span class="badge @(libro.Disponible ? "bg-success" : "bg-danger")">
-                                    @(libro.Disponible ? "Disponible" : "Prestado")
-                                </span>
-                            </p>
-                            <div class="d-flex gap-2">
-                                <a asp-action="Details" asp-route-id="@libro.ID" class="btn btn-sm btn-info text-white">Ver</a>
-                                <a asp-action="Edit" asp-route-id="@libro.ID" class="btn btn-sm btn-warning">Editar</a>
-                                <a asp-action="Delete" asp-route-id="@libro.ID" class="btn btn-sm btn-danger">Eliminar</a>
+                        </div>
+
+                        <div class="mt-auto">
+                            <div class="mb-3">
+                                @if (libro.Disponible)
+                                {
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">Disponible</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1">Prestado</span>
+                                }
                             </div>
+
+                            @*opciones de editar y eliminar a Administrador y Bibliotecario *@
+                            @if (User.IsInRole("Administrador") || User.IsInRole("Bibliotecario"))
+                            {
+                                <div class="d-flex gap-1">
+                                    <a asp-action="Edit" asp-route-id="@libro.ID" class="btn btn-outline-warning btn-sm flex-fill fw-semibold">Editar</a>
+
+                                    <form asp-action="Delete" asp-route-id="@libro.ID" method="post" class="swal-delete-form flex-fill m-0 p-0" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm w-100 fw-semibold">Eliminar</button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                @*Usuarios normales solo verán el botón de Ver Detalles*@
+                                <div class="d-flex gap-1">
+                                    <a asp-action="Details" asp-route-id="@libro.ID" class="btn btn-outline-info btn-sm w-100 fw-semibold">Ver Detalles</a>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
+    </div>
+</div>

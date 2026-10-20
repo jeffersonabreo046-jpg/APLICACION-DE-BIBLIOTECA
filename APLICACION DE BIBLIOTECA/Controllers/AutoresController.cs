@@ -1,155 +1,114 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using APLICACION_DE_BIBLIOTECA.Models;
-using System.Linq;
+using APLICACION_DE_BIBLIOTECA.Services;
+using APLICACION_DE_BIBLIOTECA.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APLICACION_DE_BIBLIOTECA.Controllers
 {
+    [Authorize]
     public class AutoresController : Controller
     {
-        private static List<Autor> _autores = new List<Autor>()
-        {
-            new Autor
-            {
-                ID = 1,
-                Nombre = " Jefferson",
-                Apellido = "Abrego",
-                Nacionalidad ="Salvadoreño",
-                Fecha_De_Nacimiento = new DateTime(2007,8,5),
-                Activo = false,
-            },
-            new Autor
-            {
-                ID = 2,
-                Nombre = "Genesis",
-                Apellido = "Marquez",
-                Nacionalidad ="Salvadoreño",
-                Fecha_De_Nacimiento = new DateTime(2001,2,3),
-                Activo = true,
-            },
-            new Autor
-            {
-                ID = 3,
-                Nombre = " Silvia",
-                Apellido = "Escamilla",
-                Nacionalidad ="Mexicana",
-                Fecha_De_Nacimiento = new DateTime(1997,5,3),
-                Activo = true,
-            },
-            new Autor
-            {
-                ID = 4,
-                Nombre = "Kai",
-                Apellido = "Cenat",
-                Nacionalidad ="Philipino",
-                Fecha_De_Nacimiento = new DateTime(1988,7,30),
-                Activo = false,
-            },
-            new Autor
-            {
-                ID = 5,
-                Nombre = "Duke",
-                Apellido = "Dennis",
-                Nacionalidad ="Estadounidense",
-                Fecha_De_Nacimiento = new DateTime(2002,9,21),
-                Activo = true,
-            },
-        };
+        private readonly BibliotecaContext _context;
 
-        public IActionResult Index()
+        public AutoresController(BibliotecaContext context)
         {
-            return View(_autores);
+            _context = context;
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Index()
         {
+            return View(await _context.Autores.ToListAsync());
+        }
 
-            var autor = _autores.FirstOrDefault(x => x.ID == id);
-
-            if (autor == null)
-            {
-                return NotFound();
-            }
-
+        public async Task<IActionResult> Details(int id)
+        {
+            var autor = await _context.Autores.FindAsync(id);
+            if (autor == null) return NotFound();
             return View(autor);
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador, Bibliotecario")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Bibliotecario")]
+        public async Task<IActionResult> Create(Autor autor)
+        {
+            if (!ModelState.IsValid) return View(autor);
+
+            _context.Add(autor);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrador, Bibliotecario")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var autor = await _context.Autores.FindAsync(id);
+            if (autor == null)
+            {
+                return NotFound();
+            }
+
+            return View(autor);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Autor autor)
+        public async Task<IActionResult> Edit(int id, Autor autor)
         {
+            if (id != autor.ID)
+            {
+                return BadRequest();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(autor);
             }
 
-            if (_autores.Any())
+            var exists = await _context.Autores.AnyAsync(a => a.ID == id);
+            if (!exists)
             {
-                autor.ID = _autores.Max(x => x.ID) + 1;
-            }
-            else
-            {
-                autor.ID = 1;
-            }
-
-            _autores.Add(autor);
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-
-            var autor = _autores.FirstOrDefault(x => x.ID == id);
-            if (autor == null)
                 return NotFound();
-            return View(autor);
-
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Autor autor)
-        {
-            if (!ModelState.IsValid) return View(autor);
-
-            var autorExistente = _autores.FirstOrDefault(x => x.ID == autor.ID);
-            if (autorExistente != null)
-            {
-                autorExistente.Nombre = autor.Nombre;
-                autorExistente.Apellido = autor.Apellido;
-                autorExistente.Nacionalidad = autor.Nacionalidad;
-                autorExistente.Fecha_De_Nacimiento = autor.Fecha_De_Nacimiento;
-                autorExistente.Activo = autor.Activo;
             }
-            return RedirectToAction(nameof(Index));
 
+            _context.Update(autor);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
-        
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var autor = _autores.FirstOrDefault(x => x.ID == id);
-            if (autor == null) return NotFound();
+            var autor = await _context.Autores.FindAsync(id);
+            if (autor == null)
+            {
+                return NotFound();
+            }
+
             return View(autor);
         }
 
-      
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var autor = _autores.FirstOrDefault(x => x.ID == id);
+            var autor = await _context.Autores.FindAsync(id);
             if (autor != null)
             {
-                _autores.Remove(autor);
+                _context.Autores.Remove(autor);
+                await _context.SaveChangesAsync();
             }
+
             return RedirectToAction(nameof(Index));
         }
     }
